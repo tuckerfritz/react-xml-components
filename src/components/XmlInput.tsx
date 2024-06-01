@@ -13,11 +13,8 @@ import LevelContext from "../contexts/Level.context";
 type XmlInputFieldProps = {} & DetailedHTMLProps<
   InputHTMLAttributes<HTMLInputElement>,
   HTMLInputElement>
-// > | {
-//     onChange?: (e: React.ChangeEvent<HTMLInputElement>, textNode: Node) => void;
-//   };
 
-const XmlInputField = forwardRef<HTMLInputElement, XmlInputFieldProps>(
+const XmlInput = forwardRef<HTMLInputElement, XmlInputFieldProps>(
   (props, inputRef) => {
     const xmlDoc = useContext(XmlEditorContext);
     const { ancestorNodePath } = useContext(NodeContext);
@@ -60,4 +57,4 @@ const XmlInputField = forwardRef<HTMLInputElement, XmlInputFieldProps>(
   }
 );
 
-export default XmlInputField;
+export default XmlInput;

@@ -1,8 +1,9 @@
 import { useCallback, useRef } from "react";
 import XmlEditor, { XmlEditorRef } from "./components/XmlEditor";
 import XmlElement from "./components/XmlElement";
-import XmlInputField from "./components/XmlInputField";
+import XmlInputField from "./components/XmlInput";
 import XmlAttribute from "./components/XmlAttribute";
+import XmlSelect from "./components/XmlSelect";
 
 const initialXml = `<?xml version="1.0" encoding="UTF-8"?>
 <bookstore>
@@ -44,7 +45,10 @@ function App() {
               <XmlElement name="title">
                 <XmlAttribute name="lang">
                   <label>Lang Attribute</label>
-                  <XmlInputField />
+                  <XmlSelect>
+                    <option value="en">English</option>
+                    <option value="fn">French</option>
+                  </XmlSelect>
                 </XmlAttribute>
                 <label>Title Element</label>
                 <XmlInputField onChange={onChange} />
