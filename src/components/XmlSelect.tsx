@@ -55,6 +55,7 @@ const XmlSelect = forwardRef<HTMLSelectElement, XmlSelectProps>(
         }
         onChange={onChange}
         data-level={level}
+        defaultValue={textNode.textContent ?? undefined}
       >
         {props.children}
       </select>

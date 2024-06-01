@@ -12,7 +12,7 @@ const initialXml = `<?xml version="1.0" encoding="UTF-8"?>
     <price>39.95</price>
   </book>
   <book>
-    <title lang="en">Learning XML</title>
+    <title lang="en">Learning HTML</title>
     <price>39.95</price>
   </book>
 </bookstore>`;

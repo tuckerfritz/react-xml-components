@@ -51,6 +51,7 @@ const XmlInput = forwardRef<HTMLInputElement, XmlInputFieldProps>(
         ref={inputRef}
         className={props.className ? `rxml__input ${props.className}` : "rxml__input"}
         onChange={onChange}
+        defaultValue={textNode.textContent ?? undefined}
         data-level={level}
       />
     );
