@@ -1,14 +1,21 @@
-import { PropsWithChildren, useContext, useMemo } from "react";
+import { PropsWithChildren, useCallback, useContext, useMemo } from "react";
 import XmlEditorContext from "../contexts/XmlEditor.context";
 import LevelContext from "../contexts/Level.context";
 import NodeContext from "../contexts/Node.context";
 
+type Context = {
+  xmlDoc: XMLDocument
+  node: Node
+  level: number,
+}
+
 type XmlElementProps = {
   name: string;
   index?: number
+  children?: ((context: Context) => React.ReactNode) | React.ReactNode;
 };
 
-const XmlElement = ({ name, children, index = 0 }: PropsWithChildren<XmlElementProps>) => {
+const XmlElement = ({ name, children, index = 0 }: XmlElementProps) => {
   const xmlDoc = useContext(XmlEditorContext);
   const level = useContext(LevelContext);
   const { ancestorNodePath } = useContext(NodeContext);
@@ -22,7 +29,6 @@ const XmlElement = ({ name, children, index = 0 }: PropsWithChildren<XmlElementP
       null,
       XPathResult.FIRST_ORDERED_NODE_TYPE
     );
-    console.log(currentNodePath, element)
     if (element.singleNodeValue === null) {
       throw Error(`Element ${name} Not Found`);
     }
@@ -40,7 +46,11 @@ const XmlElement = ({ name, children, index = 0 }: PropsWithChildren<XmlElementP
   return (
     <LevelContext.Provider value={level + 1}>
       <NodeContext.Provider value={nodeContextValue}>
-        {children}
+        {
+          typeof children === "function"
+          ? children({ xmlDoc, node: elementNode, level })
+          : children
+        }
       </NodeContext.Provider>
     </LevelContext.Provider>
   );

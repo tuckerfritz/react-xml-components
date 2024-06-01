@@ -8,7 +8,7 @@ import XmlSelect from "./components/XmlSelect";
 const initialXml = `<?xml version="1.0" encoding="UTF-8"?>
 <bookstore>
   <book>
-    <title lang="en">Learning XML</title>
+    <title lang="fn">Learning XML</title>
     <price>39.95</price>
   </book>
   <book>
@@ -54,12 +54,24 @@ function App() {
                 <XmlInputField onChange={onChange} />
               </XmlElement>
               <XmlElement name="price">
-                <label>Price Element</label>
-                <XmlInputField />
+                {(context) => (
+                  <>
+                    <label>Price Element</label>
+                    <div>{context.node.textContent}</div>
+                  </>
+                )}
               </XmlElement>
             </XmlElement>
             <XmlElement name="book" index={1}>
               <XmlElement name="title">
+                <XmlAttribute name="lang">
+                  {(context) => (
+                    <>
+                      <label>Language Attribute</label>
+                      <div>{context.node.textContent}</div>
+                    </>
+                  )}
+                </XmlAttribute>
                 <label>Title Element</label>
                 <XmlInputField onChange={onChange} />
               </XmlElement>

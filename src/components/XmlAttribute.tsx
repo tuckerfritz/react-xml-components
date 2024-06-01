@@ -3,11 +3,18 @@ import XmlEditorContext from "../contexts/XmlEditor.context";
 import LevelContext from "../contexts/Level.context";
 import NodeContext from "../contexts/Node.context";
 
+type Context = {
+  xmlDoc: XMLDocument
+  node: Node
+  level: number,
+}
+
 type XmlAttributeProps = {
   name: string;
+  children?: ((context: Context) => React.ReactNode) | React.ReactNode;
 };
 
-const XmlAttribute = ({ name, children }: PropsWithChildren<XmlAttributeProps>) => {
+const XmlAttribute = ({ name, children }: XmlAttributeProps) => {
   const xmlDoc = useContext(XmlEditorContext);
   const level = useContext(LevelContext);
   const { ancestorNodePath } = useContext(NodeContext);
@@ -38,7 +45,11 @@ const XmlAttribute = ({ name, children }: PropsWithChildren<XmlAttributeProps>) 
   return (
     <LevelContext.Provider value={level}>
       <NodeContext.Provider value={nodeContextValue}>
-        {children}
+      {
+          typeof children === "function"
+          ? children({ xmlDoc, node: attributeNode, level })
+          : children
+        }
       </NodeContext.Provider>
     </LevelContext.Provider>
   );
