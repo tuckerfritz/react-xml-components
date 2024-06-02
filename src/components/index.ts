@@ -1,4 +1,4 @@
-export { type XmlEditorRef } from "./XmlEditor";
+export { type XmlEditorRefType } from "./XmlEditor";
 
 import XmlAttribute from "./XmlAttribute";
 import XmlEditor from "./XmlEditor";

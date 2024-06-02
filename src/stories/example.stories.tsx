@@ -1,6 +1,6 @@
 import React from "react";
 import { useCallback, useRef } from "react";
-import Xml, { XmlEditorRef } from "../components";
+import Xml, { XmlEditorRefType } from "../components";
 
 const initialXml = `<?xml version="1.0" encoding="UTF-8"?>
 <bookstore xmlns:h="http://www.w3.org/TR/html4/">
@@ -23,7 +23,7 @@ const nsResolver = new XPathEvaluator().createNSResolver(
 );
 
 export function App() {
-  const editorRef = useRef<XmlEditorRef>(null);
+  const editorRef = useRef<XmlEditorRefType>(null);
 
   const onChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
