@@ -20,11 +20,9 @@ const XmlInput = forwardRef<HTMLInputElement, XmlInputFieldProps>(
     const { ancestorNodePath } = useContext(NodeContext);
     const level = useContext(LevelContext);
 
-    const textNodePath = `${ancestorNodePath}`;
-
-    const textNode = useMemo(() => {
+    const node = useMemo(() => {
       const text = xmlDoc.evaluate(
-        textNodePath,
+        ancestorNodePath,
         xmlDoc.getRootNode(),
         null,
         XPathResult.FIRST_ORDERED_NODE_TYPE
@@ -40,9 +38,9 @@ const XmlInput = forwardRef<HTMLInputElement, XmlInputFieldProps>(
         if (props.onChange) {
           props.onChange(event);
         }
-        textNode.textContent = event.target.value;
+        node.textContent = event.target.value;
       },
-      [textNode]
+      [node]
     );
 
     return (
@@ -51,7 +49,7 @@ const XmlInput = forwardRef<HTMLInputElement, XmlInputFieldProps>(
         ref={inputRef}
         className={props.className ? `rxml__input ${props.className}` : "rxml__input"}
         onChange={onChange}
-        defaultValue={textNode.textContent ?? undefined}
+        defaultValue={node.textContent ?? undefined}
         data-level={level}
       />
     );

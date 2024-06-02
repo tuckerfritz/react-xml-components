@@ -1,4 +1,4 @@
-import { PropsWithChildren, useContext, useMemo } from "react";
+import { useContext, useMemo } from "react";
 import XmlEditorContext from "../contexts/XmlEditor.context";
 import LevelContext from "../contexts/Level.context";
 import NodeContext from "../contexts/Node.context";

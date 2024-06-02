@@ -4,25 +4,28 @@ import LevelContext from "../contexts/Level.context";
 import NodeContext from "../contexts/Node.context";
 
 type Context = {
-  xmlDoc: XMLDocument
-  node: Node
-  level: number,
-}
+  xmlDoc: XMLDocument;
+  node: Node;
+  level: number;
+};
 
-type XmlElementProps = {
-  name: string;
-  index?: number
+type XmlTextProps = {
+  index?: number;
   children?: ((context: Context) => React.ReactNode) | React.ReactNode;
 };
 
-const XmlElement = ({ name, children, index = 0 }: XmlElementProps) => {
+const XmlText = ({ children, index = 0 }: XmlTextProps) => {
   const xmlDoc = useContext(XmlEditorContext);
   const level = useContext(LevelContext);
   const { ancestorNodePath } = useContext(NodeContext);
 
-  const currentNodePath = level === -1 ? `/${name}` : `${ancestorNodePath}/${name}[${index+1}]`;
+  const nthNode = index + 1;
+  const currentNodePath =
+    level === -1
+      ? `/text()[${nthNode}]`
+      : `${ancestorNodePath}/text()[${nthNode}]`;
 
-  const elementNode = useMemo(() => {
+  const textNode = useMemo(() => {
     const element = xmlDoc.evaluate(
       currentNodePath,
       xmlDoc.getRootNode(),
@@ -30,7 +33,8 @@ const XmlElement = ({ name, children, index = 0 }: XmlElementProps) => {
       XPathResult.FIRST_ORDERED_NODE_TYPE
     );
     if (element.singleNodeValue === null) {
-      throw Error(`Element ${name} Not Found`);
+      console.log(currentNodePath, element)
+      throw Error("Text Node Not Found");
     }
     return element.singleNodeValue;
   }, [xmlDoc]);
@@ -38,22 +42,20 @@ const XmlElement = ({ name, children, index = 0 }: XmlElementProps) => {
   const nodeContextValue = useMemo(
     () => ({
       ancestorNodePath: currentNodePath,
-      parentNode: elementNode,
+      parentNode: textNode,
     }),
-    [elementNode]
+    [textNode]
   );
 
   return (
     <LevelContext.Provider value={level + 1}>
       <NodeContext.Provider value={nodeContextValue}>
-        {
-          typeof children === "function"
-          ? children({ xmlDoc, node: elementNode, level })
-          : children
-        }
+        {typeof children === "function"
+          ? children({ xmlDoc, node: textNode, level })
+          : children}
       </NodeContext.Provider>
     </LevelContext.Provider>
   );
 };
 
-export default XmlElement;
+export default XmlText;

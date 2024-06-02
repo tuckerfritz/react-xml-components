@@ -1,9 +1,10 @@
 import { useCallback, useRef } from "react";
 import XmlEditor, { XmlEditorRef } from "./components/XmlEditor";
 import XmlElement from "./components/XmlElement";
-import XmlInputField from "./components/XmlInput";
+import XmlInput from "./components/XmlInput";
 import XmlAttribute from "./components/XmlAttribute";
 import XmlSelect from "./components/XmlSelect";
+import XmlText from "./components/XmlText";
 
 const initialXml = `<?xml version="1.0" encoding="UTF-8"?>
 <bookstore>
@@ -12,7 +13,7 @@ const initialXml = `<?xml version="1.0" encoding="UTF-8"?>
     <price>39.95</price>
   </book>
   <book>
-    <title lang="en">Learning HTML</title>
+    <title lang="en">Learning <emphasis>MORE</emphasis>HTML</title>
     <price>39.95</price>
   </book>
 </bookstore>`;
@@ -51,7 +52,7 @@ function App() {
                   </XmlSelect>
                 </XmlAttribute>
                 <label>Title Element</label>
-                <XmlInputField onChange={onChange} />
+                <XmlInput onChange={onChange} />
               </XmlElement>
               <XmlElement name="price">
                 {(context) => (
@@ -72,12 +73,19 @@ function App() {
                     </>
                   )}
                 </XmlAttribute>
-                <label>Title Element</label>
-                <XmlInputField onChange={onChange} />
+                <XmlText index={0}>
+                  <XmlInput onChange={onChange} />
+                </XmlText>
+                <XmlElement name="emphasis">
+                  <XmlInput onChange={onChange} />
+                </XmlElement>
+                <XmlText index={1}>
+                  <XmlInput onChange={onChange} />
+                </XmlText>
               </XmlElement>
               <XmlElement name="price">
                 <label>Price Element</label>
-                <XmlInputField />
+                <XmlInput onChange={onChange} />
               </XmlElement>
             </XmlElement>
           </XmlElement>
