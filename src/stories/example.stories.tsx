@@ -1,11 +1,12 @@
+import React from "react";
 import { useCallback, useRef } from "react";
-import XmlEditor, { XmlEditorRef } from "./components/XmlEditor";
-import XmlElement from "./components/XmlElement";
-import XmlInput from "./components/XmlInput";
-import XmlAttribute from "./components/XmlAttribute";
-import XmlSelect from "./components/XmlSelect";
-import XmlText from "./components/XmlText";
-import XmlTextarea from "./components/XmlTextarea";
+import XmlEditor, { XmlEditorRef } from "../components/XmlEditor";
+import XmlElement from "../components/XmlElement";
+import XmlInput from "../components/XmlInput";
+import XmlAttribute from "../components/XmlAttribute";
+import XmlSelect from "../components/XmlSelect";
+import XmlText from "../components/XmlText";
+import XmlTextarea from "../components/XmlTextarea";
 
 const initialXml = `<?xml version="1.0" encoding="UTF-8"?>
 <bookstore xmlns:h="http://www.w3.org/TR/html4/">
@@ -22,7 +23,7 @@ const initialXml = `<?xml version="1.0" encoding="UTF-8"?>
 const initialDoc = new DOMParser().parseFromString(initialXml, "application/xml");
 const nsResolver = new XPathEvaluator().createNSResolver(initialDoc.documentElement);
 
-function App() {
+export function App() {
   const editorRef = useRef<XmlEditorRef>(null);
 
   const onChange = useCallback((event: React.ChangeEvent<HTMLInputElement|HTMLTextAreaElement>) => {
@@ -101,5 +102,3 @@ function App() {
     </main>
   );
 }
-
-export default App;
