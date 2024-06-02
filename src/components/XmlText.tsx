@@ -28,7 +28,6 @@ const XmlText = ({ children, index = 0 }: XmlTextProps) => {
       XPathResult.FIRST_ORDERED_NODE_TYPE
     );
     if (element.singleNodeValue === null) {
-      console.log(currentNodePath, element);
       throw Error("Text Node Not Found");
     }
     return element.singleNodeValue;

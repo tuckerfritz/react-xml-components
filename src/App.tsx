@@ -5,6 +5,7 @@ import XmlInput from "./components/XmlInput";
 import XmlAttribute from "./components/XmlAttribute";
 import XmlSelect from "./components/XmlSelect";
 import XmlText from "./components/XmlText";
+import XmlTextarea from "./components/XmlTextarea";
 
 const initialXml = `<?xml version="1.0" encoding="UTF-8"?>
 <bookstore>
@@ -21,7 +22,7 @@ const initialXml = `<?xml version="1.0" encoding="UTF-8"?>
 function App() {
   const editorRef = useRef<XmlEditorRef>(null);
 
-  const onChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
+  const onChange = useCallback((event: React.ChangeEvent<HTMLInputElement|HTMLTextAreaElement>) => {
     console.log(event);
   }, []);
 
@@ -77,7 +78,7 @@ function App() {
                   <XmlInput onChange={onChange} />
                 </XmlText>
                 <XmlElement name="emphasis">
-                  <XmlInput onChange={onChange} />
+                  <XmlTextarea onChange={onChange} />
                 </XmlElement>
                 <XmlText index={1}>
                   <XmlInput onChange={onChange} />
