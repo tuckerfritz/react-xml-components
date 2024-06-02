@@ -4,7 +4,6 @@ import {
   forwardRef,
   useCallback,
   useContext,
-  useMemo,
 } from "react";
 import NodeContext from "../contexts/Node.context";
 
@@ -15,27 +14,14 @@ type XmlSelectProps = {} & DetailedHTMLProps<
 
 const XmlSelect = forwardRef<HTMLSelectElement, XmlSelectProps>(
   (props, selectRef) => {
-    const { xmlDoc, currentNodePath: parentNodePath, level } = useContext(NodeContext);
-
-    const currentNode = useMemo(() => {
-      const text = xmlDoc.evaluate(
-        parentNodePath,
-        xmlDoc.getRootNode(),
-        null,
-        XPathResult.FIRST_ORDERED_NODE_TYPE
-      );
-      if (text.singleNodeValue === null) {
-        throw Error(`Text Node Not Found`);
-      }
-      return text.singleNodeValue;
-    }, [xmlDoc]);
+    const { currentNode, level } = useContext(NodeContext);
 
     const onChange = useCallback(
       (event: React.ChangeEvent<HTMLSelectElement>) => {
         if (props.onChange) {
           props.onChange(event);
         }
-        currentNode.textContent = event.target.value;
+        if (currentNode) currentNode.textContent = event.target.value;
       },
       [currentNode]
     );
@@ -49,7 +35,7 @@ const XmlSelect = forwardRef<HTMLSelectElement, XmlSelectProps>(
         }
         onChange={onChange}
         data-level={level}
-        defaultValue={currentNode.textContent ?? undefined}
+        defaultValue={currentNode?.textContent ?? undefined}
       >
         {props.children}
       </select>

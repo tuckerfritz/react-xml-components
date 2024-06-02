@@ -4,48 +4,37 @@ import {
   forwardRef,
   useCallback,
   useContext,
-  useMemo,
 } from "react";
 import NodeContext from "../contexts/Node.context";
 
 type XmlInputFieldProps = {} & DetailedHTMLProps<
   InputHTMLAttributes<HTMLInputElement>,
-  HTMLInputElement>
+  HTMLInputElement
+>;
 
 const XmlInput = forwardRef<HTMLInputElement, XmlInputFieldProps>(
   (props, inputRef) => {
-    const { xmlDoc, currentNodePath: parentNodePath, level } = useContext(NodeContext);
-
-    const node = useMemo(() => {
-      const text = xmlDoc.evaluate(
-        parentNodePath ?? "",
-        xmlDoc.getRootNode(),
-        null,
-        XPathResult.FIRST_ORDERED_NODE_TYPE
-      );
-      if (text.singleNodeValue === null) {
-        throw Error(`Text Node Not Found`);
-      }
-      return text.singleNodeValue;
-    }, [xmlDoc]);
+    const { currentNode, level } = useContext(NodeContext);
 
     const onChange = useCallback(
       (event: React.ChangeEvent<HTMLInputElement>) => {
         if (props.onChange) {
           props.onChange(event);
         }
-        node.textContent = event.target.value;
+        if (currentNode) currentNode.textContent = event.target.value;
       },
-      [node]
+      [currentNode]
     );
 
     return (
       <input
         {...props}
         ref={inputRef}
-        className={props.className ? `rxml__input ${props.className}` : "rxml__input"}
+        className={
+          props.className ? `rxml__input ${props.className}` : "rxml__input"
+        }
         onChange={onChange}
-        defaultValue={node.textContent ?? undefined}
+        defaultValue={currentNode?.textContent ?? undefined}
         data-level={level}
       />
     );
