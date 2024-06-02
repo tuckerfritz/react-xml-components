@@ -10,6 +10,4 @@ export type NodeContextType = {
   nsResolver?: XPathNSResolver;
 };
 
-const NodeContext = createContext<NodeContextType>(null!);
-
-export default NodeContext;
+export const NodeContext = createContext<NodeContextType>(null!);

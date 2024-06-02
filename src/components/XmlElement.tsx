@@ -1,5 +1,5 @@
 import { useContext, useMemo } from "react";
-import NodeContext, { NodeContextType } from "../contexts/Node.context";
+import { NodeContext, NodeContextType } from "../contexts/Node.context";
 
 type XmlElementProps = {
   name: string;

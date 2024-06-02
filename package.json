@@ -1,11 +1,24 @@
 {
-  "name": "react-edit-xml",
-  "private": true,
+  "name": "react-xml-components",
   "version": "0.1.0",
+  "description": "A React component library for editing XML documents.",
+  "keywords": [
+    "react",
+    "edit",
+    "xml",
+    "components"
+  ],
+  "homepage": "https://github.com/tuckerfritz/react-xml-components",
+  "bugs": {
+    "url": "https://github.com/tuckerfritz/react-xml-components/issues"
+  },
+  "license": "MIT",
+  "author": "Tucker Fritz",
+  "private": true,
   "type": "module",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
-  "types": "dist/index.d.ts",
+  "types": "dist/types.d.ts",
   "scripts": {
     "dev": "npx ladle serve",
     "build": "rollup -c --bundleConfigAsCjs",

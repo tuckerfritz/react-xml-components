@@ -8,7 +8,7 @@ import XmlSelect from "./XmlSelect";
 import XmlText from "./XmlText";
 import XmlTextarea from "./XmlTextarea";
 
-export default {
+export const Xml = {
   Attribute: XmlAttribute,
   Root: XmlEditor,
   Element: XmlElement,

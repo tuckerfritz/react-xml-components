@@ -5,7 +5,7 @@ import {
   useCallback,
   useContext,
 } from "react";
-import NodeContext from "../contexts/Node.context";
+import { NodeContext } from "../contexts/Node.context";
 
 type XmlInputFieldProps = DetailedHTMLProps<
   InputHTMLAttributes<HTMLInputElement>,

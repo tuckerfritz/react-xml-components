@@ -5,7 +5,7 @@ import {
   useMemo,
   useRef,
 } from "react";
-import NodeContext, { NodeContextType } from "../contexts/Node.context";
+import { NodeContext, NodeContextType } from "../contexts/Node.context";
 
 type XmlEditorProps = {
   initialXml: string | XMLDocument;
