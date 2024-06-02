@@ -8,16 +8,19 @@ import XmlText from "./components/XmlText";
 import XmlTextarea from "./components/XmlTextarea";
 
 const initialXml = `<?xml version="1.0" encoding="UTF-8"?>
-<bookstore>
+<bookstore xmlns:h="http://www.w3.org/TR/html4/">
   <book>
     <title lang="fn">Learning XML</title>
-    <price>39.95</price>
+    <h:price>39.95</h:price>
   </book>
   <book>
     <title lang="en">Learning <emphasis>MORE</emphasis>HTML</title>
-    <price>39.95</price>
+    <h:price>39.95</h:price>
   </book>
 </bookstore>`;
+
+const initialDoc = new DOMParser().parseFromString(initialXml, "application/xml");
+const nsResolver = new XPathEvaluator().createNSResolver(initialDoc.documentElement);
 
 function App() {
   const editorRef = useRef<XmlEditorRef>(null);
@@ -41,7 +44,7 @@ function App() {
           console.log(e);
         }}
       >
-        <XmlEditor ref={editorRef} initialXml={initialXml}>
+        <XmlEditor ref={editorRef} initialXml={initialDoc} nsResolver={nsResolver}>
           <XmlElement name="bookstore">
             <XmlElement name="book" index={0}>
               <XmlElement name="title">
@@ -55,7 +58,7 @@ function App() {
                 <label>Title Element</label>
                 <XmlInput onChange={onChange} />
               </XmlElement>
-              <XmlElement name="price">
+              <XmlElement name="h:price">
                 {(context) => (
                   <>
                     <label>Price Element</label>
@@ -84,7 +87,7 @@ function App() {
                   <XmlInput onChange={onChange} />
                 </XmlText>
               </XmlElement>
-              <XmlElement name="price">
+              <XmlElement name="h:price">
                 <label>Price Element</label>
                 <XmlInput onChange={onChange} />
               </XmlElement>

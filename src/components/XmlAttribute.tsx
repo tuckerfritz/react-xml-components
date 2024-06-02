@@ -12,6 +12,7 @@ const XmlAttribute = ({ name, children }: XmlAttributeProps) => {
     currentNodePath: parentNodePath,
     currentNode: parentNode,
     level: parentLevel,
+    nsResolver,
   } = useContext(NodeContext);
 
   const currentNodePath = `${parentNodePath}/@${name}`;
@@ -20,7 +21,7 @@ const XmlAttribute = ({ name, children }: XmlAttributeProps) => {
     const attribute = xmlDoc.evaluate(
       currentNodePath,
       xmlDoc.getRootNode(),
-      null,
+      nsResolver,
       XPathResult.FIRST_ORDERED_NODE_TYPE
     );
     if (attribute.singleNodeValue === null) {
@@ -37,8 +38,17 @@ const XmlAttribute = ({ name, children }: XmlAttributeProps) => {
       parentNodePath,
       parentNode,
       level: parentLevel + 1,
+      nsResolver,
     }),
-    [xmlDoc, currentNodePath, currentNode, parentNode, parentNodePath, parentLevel]
+    [
+      xmlDoc,
+      currentNodePath,
+      currentNode,
+      parentNode,
+      parentNodePath,
+      parentLevel,
+      nsResolver,
+    ]
   );
 
   return (

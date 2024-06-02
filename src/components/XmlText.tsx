@@ -12,6 +12,7 @@ const XmlText = ({ children, index = 0 }: XmlTextProps) => {
     currentNodePath: parentNodePath,
     currentNode: parentNode,
     level: parentLevel,
+    nsResolver,
   } = useContext(NodeContext);
 
   const nthNode = index + 1;
@@ -24,7 +25,7 @@ const XmlText = ({ children, index = 0 }: XmlTextProps) => {
     const element = xmlDoc.evaluate(
       currentNodePath,
       xmlDoc.getRootNode(),
-      null,
+      nsResolver,
       XPathResult.FIRST_ORDERED_NODE_TYPE
     );
     if (element.singleNodeValue === null) {
@@ -41,8 +42,17 @@ const XmlText = ({ children, index = 0 }: XmlTextProps) => {
       parentNodePath,
       parentNode,
       level: parentLevel + 1,
+      nsResolver,
     }),
-    [xmlDoc, currentNodePath, currentNode, parentNode, parentNodePath, parentLevel]
+    [
+      xmlDoc,
+      currentNodePath,
+      currentNode,
+      parentNode,
+      parentNodePath,
+      parentLevel,
+      nsResolver,
+    ]
   );
 
   return (

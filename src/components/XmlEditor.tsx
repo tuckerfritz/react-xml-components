@@ -9,6 +9,7 @@ import NodeContext, { NodeContextType } from "../contexts/Node.context";
 
 type XmlEditorProps = {
   initialXml: string | XMLDocument;
+  nsResolver?: XPathNSResolver;
 };
 
 export type XmlEditorRef = {
@@ -18,7 +19,7 @@ export type XmlEditorRef = {
 };
 
 const XmlEditor = forwardRef<XmlEditorRef, PropsWithChildren<XmlEditorProps>>(
-  ({ initialXml, children }, ref) => {
+  ({ initialXml, nsResolver, children }, ref) => {
     const initialXmlDoc = useMemo(
       () =>
         typeof initialXml === "string"
@@ -61,8 +62,9 @@ const XmlEditor = forwardRef<XmlEditorRef, PropsWithChildren<XmlEditorProps>>(
         parentNodePath: null,
         parentNode: null,
         level: 0,
+        nsResolver
       }),
-      [xmlDocRef.current]
+      [xmlDocRef.current, nsResolver]
     );
 
     return (

@@ -7,6 +7,7 @@ export type NodeContextType = {
   parentNodePath: string | null;
   parentNode: Node | null;
   level: number;
+  nsResolver?: XPathNSResolver
 };
 
 const NodeContext = createContext<NodeContextType>(null!);

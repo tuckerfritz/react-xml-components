@@ -1,6 +1,5 @@
 import { useContext, useMemo } from "react";
 import NodeContext, { NodeContextType } from "../contexts/Node.context";
-import isValidElementNameProp from "./utils/validateNameProp";
 
 type XmlElementProps = {
   name: string;
@@ -14,19 +13,17 @@ const XmlElement = ({ name, children, index = 0 }: XmlElementProps) => {
     level: parentLevel,
     xmlDoc,
     currentNode: parentNode,
+    nsResolver,
   } = useContext(NodeContext);
 
   const currentNodePath =
     parentLevel === 0 ? `/${name}` : `${parentNodePath}/${name}[${index + 1}]`;
 
   const currentNode = useMemo(() => {
-    if(!isValidElementNameProp(name)) {
-      throw Error(`Element Name ${name} Is Invalid`)
-    }
     const element = xmlDoc.evaluate(
       currentNodePath,
       xmlDoc.getRootNode(),
-      null,
+      nsResolver,
       XPathResult.FIRST_ORDERED_NODE_TYPE
     );
     if (element.singleNodeValue === null) {
@@ -43,8 +40,17 @@ const XmlElement = ({ name, children, index = 0 }: XmlElementProps) => {
       parentNodePath,
       parentNode,
       level: parentLevel + 1,
+      nsResolver,
     }),
-    [xmlDoc, currentNodePath, currentNode, parentNodePath, parentNode, parentLevel]
+    [
+      xmlDoc,
+      currentNodePath,
+      currentNode,
+      parentNodePath,
+      parentNode,
+      parentLevel,
+      nsResolver,
+    ]
   );
 
   return (
