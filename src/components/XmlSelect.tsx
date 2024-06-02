@@ -23,7 +23,7 @@ const XmlSelect = forwardRef<HTMLSelectElement, XmlSelectProps>(
         }
         if (currentNode) currentNode.textContent = event.target.value;
       },
-      [currentNode, onChange]
+      [currentNode, onChange],
     );
 
     return (
@@ -38,7 +38,7 @@ const XmlSelect = forwardRef<HTMLSelectElement, XmlSelectProps>(
         {children}
       </select>
     );
-  }
+  },
 );
 
 XmlSelect.displayName = "XmlSelect";

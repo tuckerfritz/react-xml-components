@@ -29,7 +29,7 @@ export default [
       commonjs(),
       typescript({ tsconfig: "./tsconfig.json" }),
       terser(),
-      gzipPlugin.default()
+      gzipPlugin.default(),
     ],
     external: ["react", "react-dom"],
   },

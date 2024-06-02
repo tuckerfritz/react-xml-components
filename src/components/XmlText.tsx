@@ -26,7 +26,7 @@ const XmlText = ({ children, index = 0 }: XmlTextProps) => {
       currentNodePath,
       xmlDoc.getRootNode(),
       nsResolver,
-      XPathResult.FIRST_ORDERED_NODE_TYPE
+      XPathResult.FIRST_ORDERED_NODE_TYPE,
     );
     if (element.singleNodeValue === null) {
       throw Error("Text Node Not Found");
@@ -52,7 +52,7 @@ const XmlText = ({ children, index = 0 }: XmlTextProps) => {
       parentNodePath,
       parentLevel,
       nsResolver,
-    ]
+    ],
   );
 
   return (

@@ -20,15 +20,23 @@ const initialXml = `<?xml version="1.0" encoding="UTF-8"?>
   </book>
 </bookstore>`;
 
-const initialDoc = new DOMParser().parseFromString(initialXml, "application/xml");
-const nsResolver = new XPathEvaluator().createNSResolver(initialDoc.documentElement);
+const initialDoc = new DOMParser().parseFromString(
+  initialXml,
+  "application/xml",
+);
+const nsResolver = new XPathEvaluator().createNSResolver(
+  initialDoc.documentElement,
+);
 
 export function App() {
   const editorRef = useRef<XmlEditorRef>(null);
 
-  const onChange = useCallback((event: React.ChangeEvent<HTMLInputElement|HTMLTextAreaElement>) => {
-    console.log(event);
-  }, []);
+  const onChange = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+      console.log(event);
+    },
+    [],
+  );
 
   const handleSubmit = () => {
     if (editorRef.current) {
@@ -45,7 +53,11 @@ export function App() {
           console.log(e);
         }}
       >
-        <XmlEditor ref={editorRef} initialXml={initialDoc} nsResolver={nsResolver}>
+        <XmlEditor
+          ref={editorRef}
+          initialXml={initialDoc}
+          nsResolver={nsResolver}
+        >
           <XmlElement name="bookstore">
             <XmlElement name="book" index={0}>
               <XmlElement name="title">

@@ -13,7 +13,7 @@ type XmlInputFieldProps = DetailedHTMLProps<
 >;
 
 const XmlInput = forwardRef<HTMLInputElement, XmlInputFieldProps>(
-  ({className, onChange, ...rest}, inputRef) => {
+  ({ className, onChange, ...rest }, inputRef) => {
     const { currentNode, level } = useContext(NodeContext);
 
     const handleOnChange = useCallback(
@@ -23,22 +23,20 @@ const XmlInput = forwardRef<HTMLInputElement, XmlInputFieldProps>(
         }
         if (currentNode) currentNode.textContent = event.target.value;
       },
-      [currentNode, onChange]
+      [currentNode, onChange],
     );
 
     return (
       <input
         {...rest}
         ref={inputRef}
-        className={
-          className ? `rxml__input ${className}` : "rxml__input"
-        }
+        className={className ? `rxml__input ${className}` : "rxml__input"}
         onChange={handleOnChange}
         defaultValue={currentNode?.textContent ?? undefined}
         data-level={level}
       />
     );
-  }
+  },
 );
 
 XmlInput.displayName = "XmlInput";

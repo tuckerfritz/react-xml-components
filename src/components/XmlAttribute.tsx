@@ -22,7 +22,7 @@ const XmlAttribute = ({ name, children }: XmlAttributeProps) => {
       currentNodePath,
       xmlDoc.getRootNode(),
       nsResolver,
-      XPathResult.FIRST_ORDERED_NODE_TYPE
+      XPathResult.FIRST_ORDERED_NODE_TYPE,
     );
     if (attribute.singleNodeValue === null) {
       throw Error(`Attribute ${name} Not Found`);
@@ -48,7 +48,7 @@ const XmlAttribute = ({ name, children }: XmlAttributeProps) => {
       parentNodePath,
       parentLevel,
       nsResolver,
-    ]
+    ],
   );
 
   return (

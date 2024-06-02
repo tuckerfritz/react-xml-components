@@ -24,7 +24,7 @@ const XmlElement = ({ name, children, index = 0 }: XmlElementProps) => {
       currentNodePath,
       xmlDoc.getRootNode(),
       nsResolver,
-      XPathResult.FIRST_ORDERED_NODE_TYPE
+      XPathResult.FIRST_ORDERED_NODE_TYPE,
     );
     if (element.singleNodeValue === null) {
       throw Error(`Element ${name} Not Found`);
@@ -50,7 +50,7 @@ const XmlElement = ({ name, children, index = 0 }: XmlElementProps) => {
       parentNode,
       parentLevel,
       nsResolver,
-    ]
+    ],
   );
 
   return (

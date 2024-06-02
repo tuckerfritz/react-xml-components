@@ -26,34 +26,30 @@ const XmlEditor = forwardRef<XmlEditorRef, PropsWithChildren<XmlEditorProps>>(
           ? new DOMParser().parseFromString(initialXml, "application/xml")
           : initialXml,
       // eslint-disable-next-line react-hooks/exhaustive-deps
-      []
+      [],
     );
     const xmlDocRef = useRef<XMLDocument>(initialXmlDoc);
 
-    useImperativeHandle(
-      ref,
-      () => {
-        return {
-          getXmlDocument: () => xmlDocRef.current,
-          getXmlString: () => {
-            const serializer = new XMLSerializer();
-            return serializer.serializeToString(xmlDocRef.current);
-          },
-          setXmlDocument: (doc) => {
-            if (typeof doc === "string") {
-              const serializer = new DOMParser();
-              xmlDocRef.current = serializer.parseFromString(
-                doc,
-                "application/xml"
-              );
-            } else {
-              xmlDocRef.current = doc;
-            }
-          },
-        };
-      },
-      []
-    );
+    useImperativeHandle(ref, () => {
+      return {
+        getXmlDocument: () => xmlDocRef.current,
+        getXmlString: () => {
+          const serializer = new XMLSerializer();
+          return serializer.serializeToString(xmlDocRef.current);
+        },
+        setXmlDocument: (doc) => {
+          if (typeof doc === "string") {
+            const serializer = new DOMParser();
+            xmlDocRef.current = serializer.parseFromString(
+              doc,
+              "application/xml",
+            );
+          } else {
+            xmlDocRef.current = doc;
+          }
+        },
+      };
+    }, []);
 
     const nodeContextValue: NodeContextType = useMemo(
       () => ({
@@ -65,7 +61,7 @@ const XmlEditor = forwardRef<XmlEditorRef, PropsWithChildren<XmlEditorProps>>(
         level: 0,
         nsResolver,
       }),
-      [nsResolver]
+      [nsResolver],
     );
 
     return (
@@ -73,7 +69,7 @@ const XmlEditor = forwardRef<XmlEditorRef, PropsWithChildren<XmlEditorProps>>(
         {children}
       </NodeContext.Provider>
     );
-  }
+  },
 );
 
 XmlEditor.displayName = "XmlEditor";

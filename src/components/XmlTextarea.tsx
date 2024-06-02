@@ -23,7 +23,7 @@ const XmlTextarea = forwardRef<HTMLTextAreaElement, XmlTextareaFieldProps>(
         }
         if (currentNode) currentNode.textContent = event.target.value;
       },
-      [currentNode, onChange]
+      [currentNode, onChange],
     );
 
     return (
@@ -36,7 +36,7 @@ const XmlTextarea = forwardRef<HTMLTextAreaElement, XmlTextareaFieldProps>(
         data-level={level}
       />
     );
-  }
+  },
 );
 
 XmlTextarea.displayName = "XmlTextarea";
