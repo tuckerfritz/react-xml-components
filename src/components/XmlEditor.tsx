@@ -1,7 +1,11 @@
-import { PropsWithChildren, forwardRef, useImperativeHandle, useMemo, useRef } from "react";
-import XmlEditorContext from "../contexts/XmlEditor.context";
-import LevelContext from "../contexts/Level.context";
-import NodeContext from "../contexts/Node.context";
+import {
+  PropsWithChildren,
+  forwardRef,
+  useImperativeHandle,
+  useMemo,
+  useRef,
+} from "react";
+import NodeContext, { NodeContextType } from "../contexts/Node.context";
 
 type XmlEditorProps = {
   initialXml: string | XMLDocument;
@@ -13,58 +17,61 @@ export type XmlEditorRef = {
   setXmlDocument: (xml: XMLDocument | string) => void;
 };
 
-const XmlEditor = forwardRef<XmlEditorRef, PropsWithChildren<XmlEditorProps>>(({ initialXml, children }, ref) => {
-  const initialXmlDoc = useMemo(
-    () =>
-      typeof initialXml === "string"
-        ? new DOMParser().parseFromString(initialXml, "application/xml")
-        : initialXml,
-    []
-  );
-  const xmlDocRef = useRef<XMLDocument>(initialXmlDoc);
+const XmlEditor = forwardRef<XmlEditorRef, PropsWithChildren<XmlEditorProps>>(
+  ({ initialXml, children }, ref) => {
+    const initialXmlDoc = useMemo(
+      () =>
+        typeof initialXml === "string"
+          ? new DOMParser().parseFromString(initialXml, "application/xml")
+          : initialXml,
+      []
+    );
+    const xmlDocRef = useRef<XMLDocument>(initialXmlDoc);
 
-  useImperativeHandle(
-    ref,
-    () => {
-      return {
-        getXmlDocument: () => xmlDocRef.current,
-        getXmlString: () => {
-          const serializer = new XMLSerializer();
-          return serializer.serializeToString(xmlDocRef.current);
-        },
-        setXmlDocument: (doc) => {
-          if (typeof doc === "string") {
-            const serializer = new DOMParser();
-            xmlDocRef.current = serializer.parseFromString(
-              doc,
-              "application/xml"
-            );
-          } else {
-            xmlDocRef.current = doc;
-          }
-        },
-      };
-    },
-    []
-  );
+    useImperativeHandle(
+      ref,
+      () => {
+        return {
+          getXmlDocument: () => xmlDocRef.current,
+          getXmlString: () => {
+            const serializer = new XMLSerializer();
+            return serializer.serializeToString(xmlDocRef.current);
+          },
+          setXmlDocument: (doc) => {
+            if (typeof doc === "string") {
+              const serializer = new DOMParser();
+              xmlDocRef.current = serializer.parseFromString(
+                doc,
+                "application/xml"
+              );
+            } else {
+              xmlDocRef.current = doc;
+            }
+          },
+        };
+      },
+      []
+    );
 
-  const nodeContextValue = useMemo(() => ({
-    ancestorNodePath: "/",
-    parentNode: null
-  }), []);
+    const nodeContextValue: NodeContextType = useMemo(
+      () => ({
+        xmlDoc: xmlDocRef.current,
+        currentNodePath: "/",
+        node: null,
+        ancestorNodePath: null,
+        parentNode: null,
+        level: -1,
+      }),
+      [xmlDocRef.current]
+    );
 
-  return (
-    <XmlEditorContext.Provider
-      value={xmlDocRef.current}
-    >
-      <LevelContext.Provider value={-1}>
-        <NodeContext.Provider value={nodeContextValue}>
+    return (
+      <NodeContext.Provider value={nodeContextValue}>
         {children}
-        </NodeContext.Provider>
-      </LevelContext.Provider>
-    </XmlEditorContext.Provider>
-  );
-});
+      </NodeContext.Provider>
+    );
+  }
+);
 
 XmlEditor.displayName = "XmlEditor";
 

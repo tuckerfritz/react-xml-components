@@ -1,23 +1,18 @@
 import { useContext, useMemo } from "react";
-import XmlEditorContext from "../contexts/XmlEditor.context";
-import LevelContext from "../contexts/Level.context";
-import NodeContext from "../contexts/Node.context";
-
-type Context = {
-  xmlDoc: XMLDocument
-  node: Node
-  level: number,
-}
+import NodeContext, { NodeContextType } from "../contexts/Node.context";
 
 type XmlAttributeProps = {
   name: string;
-  children?: ((context: Context) => React.ReactNode) | React.ReactNode;
+  children?: ((context: NodeContextType) => React.ReactNode) | React.ReactNode;
 };
 
 const XmlAttribute = ({ name, children }: XmlAttributeProps) => {
-  const xmlDoc = useContext(XmlEditorContext);
-  const level = useContext(LevelContext);
-  const { ancestorNodePath } = useContext(NodeContext);
+  const {
+    xmlDoc,
+    currentNodePath: ancestorNodePath,
+    node: parentNode,
+    level,
+  } = useContext(NodeContext);
 
   const currentNodePath = `${ancestorNodePath}/@${name}`;
 
@@ -34,24 +29,22 @@ const XmlAttribute = ({ name, children }: XmlAttributeProps) => {
     return attribute.singleNodeValue;
   }, [xmlDoc, level]);
 
-  const nodeContextValue = useMemo(
+  const nodeContextValue: NodeContextType = useMemo(
     () => ({
-      ancestorNodePath: currentNodePath,
-      parentNode: attributeNode,
+      xmlDoc,
+      currentNodePath,
+      node: attributeNode,
+      ancestorNodePath,
+      parentNode,
+      level: level + 1,
     }),
-    [attributeNode]
+    [xmlDoc, currentNodePath, parentNode, attributeNode, level]
   );
 
   return (
-    <LevelContext.Provider value={level}>
-      <NodeContext.Provider value={nodeContextValue}>
-      {
-          typeof children === "function"
-          ? children({ xmlDoc, node: attributeNode, level })
-          : children
-        }
-      </NodeContext.Provider>
-    </LevelContext.Provider>
+    <NodeContext.Provider value={nodeContextValue}>
+      {typeof children === "function" ? children(nodeContextValue) : children}
+    </NodeContext.Provider>
   );
 };
 

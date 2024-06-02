@@ -1,10 +1,14 @@
 import { createContext } from "react";
 
-type NodeContext = {
-  ancestorNodePath: string;
+export type NodeContextType = {
+  xmlDoc: XMLDocument;
+  currentNodePath: string;
+  node: Node | null;
+  ancestorNodePath: string | null;
   parentNode: Node | null;
+  level: number;
 };
 
-const NodeContext = createContext<NodeContext>(null!);
+const NodeContext = createContext<NodeContextType>(null!);
 
 export default NodeContext;

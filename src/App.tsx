@@ -69,7 +69,7 @@ function App() {
                   {(context) => (
                     <>
                       <label>Language Attribute</label>
-                      <div>{context.node.textContent}</div>
+                      <div>{context.node?.textContent}</div>
                     </>
                   )}
                 </XmlAttribute>

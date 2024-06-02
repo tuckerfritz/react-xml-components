@@ -6,9 +6,7 @@ import {
   useContext,
   useMemo,
 } from "react";
-import XmlEditorContext from "../contexts/XmlEditor.context";
 import NodeContext from "../contexts/Node.context";
-import LevelContext from "../contexts/Level.context";
 
 type XmlSelectProps = {} & DetailedHTMLProps<
   SelectHTMLAttributes<HTMLSelectElement>,
@@ -17,9 +15,7 @@ type XmlSelectProps = {} & DetailedHTMLProps<
 
 const XmlSelect = forwardRef<HTMLSelectElement, XmlSelectProps>(
   (props, selectRef) => {
-    const xmlDoc = useContext(XmlEditorContext);
-    const { ancestorNodePath } = useContext(NodeContext);
-    const level = useContext(LevelContext);
+    const { xmlDoc, currentNodePath: ancestorNodePath, level } = useContext(NodeContext);
 
     const node = useMemo(() => {
       const text = xmlDoc.evaluate(

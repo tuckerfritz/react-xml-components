@@ -1,26 +1,28 @@
 import { useContext, useMemo } from "react";
-import XmlEditorContext from "../contexts/XmlEditor.context";
-import LevelContext from "../contexts/Level.context";
-import NodeContext from "../contexts/Node.context";
+import NodeContext, { NodeContextType } from "../contexts/Node.context";
 
 type Context = {
-  xmlDoc: XMLDocument
-  node: Node
-  level: number,
-}
+  xmlDoc: XMLDocument;
+  node: Node;
+  level: number;
+};
 
 type XmlElementProps = {
   name: string;
-  index?: number
+  index?: number;
   children?: ((context: Context) => React.ReactNode) | React.ReactNode;
 };
 
 const XmlElement = ({ name, children, index = 0 }: XmlElementProps) => {
-  const xmlDoc = useContext(XmlEditorContext);
-  const level = useContext(LevelContext);
-  const { ancestorNodePath } = useContext(NodeContext);
+  const {
+    currentNodePath: ancestorNodePath,
+    level,
+    xmlDoc,
+    node: parentNode,
+  } = useContext(NodeContext);
 
-  const currentNodePath = level === -1 ? `/${name}` : `${ancestorNodePath}/${name}[${index+1}]`;
+  const currentNodePath =
+    level === -1 ? `/${name}` : `${ancestorNodePath}/${name}[${index + 1}]`;
 
   const elementNode = useMemo(() => {
     const element = xmlDoc.evaluate(
@@ -35,24 +37,24 @@ const XmlElement = ({ name, children, index = 0 }: XmlElementProps) => {
     return element.singleNodeValue;
   }, [xmlDoc]);
 
-  const nodeContextValue = useMemo(
+  const nodeContextValue: NodeContextType = useMemo(
     () => ({
-      ancestorNodePath: currentNodePath,
-      parentNode: elementNode,
+      xmlDoc,
+      currentNodePath,
+      node: elementNode,
+      ancestorNodePath,
+      parentNode,
+      level: level + 1,
     }),
-    [elementNode]
+    [xmlDoc, currentNodePath, ancestorNodePath, parentNode, elementNode, level]
   );
 
   return (
-    <LevelContext.Provider value={level + 1}>
-      <NodeContext.Provider value={nodeContextValue}>
-        {
-          typeof children === "function"
-          ? children({ xmlDoc, node: elementNode, level })
-          : children
-        }
-      </NodeContext.Provider>
-    </LevelContext.Provider>
+    <NodeContext.Provider value={nodeContextValue}>
+      {typeof children === "function"
+        ? children({ xmlDoc, node: elementNode, level })
+        : children}
+    </NodeContext.Provider>
   );
 };
 
