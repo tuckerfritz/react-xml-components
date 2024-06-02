@@ -25,6 +25,7 @@ const XmlEditor = forwardRef<XmlEditorRef, PropsWithChildren<XmlEditorProps>>(
         typeof initialXml === "string"
           ? new DOMParser().parseFromString(initialXml, "application/xml")
           : initialXml,
+      // eslint-disable-next-line react-hooks/exhaustive-deps
       []
     );
     const xmlDocRef = useRef<XMLDocument>(initialXmlDoc);
@@ -62,9 +63,9 @@ const XmlEditor = forwardRef<XmlEditorRef, PropsWithChildren<XmlEditorProps>>(
         parentNodePath: null,
         parentNode: null,
         level: 0,
-        nsResolver
+        nsResolver,
       }),
-      [xmlDocRef.current, nsResolver]
+      [nsResolver]
     );
 
     return (

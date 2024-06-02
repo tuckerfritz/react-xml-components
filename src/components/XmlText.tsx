@@ -32,7 +32,7 @@ const XmlText = ({ children, index = 0 }: XmlTextProps) => {
       throw Error("Text Node Not Found");
     }
     return element.singleNodeValue;
-  }, [xmlDoc]);
+  }, [xmlDoc, currentNodePath, nsResolver]);
 
   const nodeContextValue: NodeContextType = useMemo(
     () => ({

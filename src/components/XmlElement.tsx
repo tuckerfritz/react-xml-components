@@ -30,7 +30,7 @@ const XmlElement = ({ name, children, index = 0 }: XmlElementProps) => {
       throw Error(`Element ${name} Not Found`);
     }
     return element.singleNodeValue;
-  }, [xmlDoc]);
+  }, [xmlDoc, currentNodePath, nsResolver, name]);
 
   const nodeContextValue: NodeContextType = useMemo(
     () => ({

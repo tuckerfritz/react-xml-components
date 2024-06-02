@@ -7,37 +7,35 @@ import {
 } from "react";
 import NodeContext from "../contexts/Node.context";
 
-type XmlSelectProps = {} & DetailedHTMLProps<
+type XmlSelectProps = DetailedHTMLProps<
   SelectHTMLAttributes<HTMLSelectElement>,
   HTMLSelectElement
 >;
 
 const XmlSelect = forwardRef<HTMLSelectElement, XmlSelectProps>(
-  (props, selectRef) => {
+  ({ className, onChange, children, ...rest }, selectRef) => {
     const { currentNode, level } = useContext(NodeContext);
 
-    const onChange = useCallback(
+    const handleOnChange = useCallback(
       (event: React.ChangeEvent<HTMLSelectElement>) => {
-        if (props.onChange) {
-          props.onChange(event);
+        if (onChange) {
+          onChange(event);
         }
         if (currentNode) currentNode.textContent = event.target.value;
       },
-      [currentNode]
+      [currentNode, onChange]
     );
 
     return (
       <select
-        {...props}
+        {...rest}
         ref={selectRef}
-        className={
-          props.className ? `rxml__select ${props.className}` : "rxml__select"
-        }
-        onChange={onChange}
+        className={className ? `rxml__select ${className}` : "rxml__select"}
+        onChange={handleOnChange}
         data-level={level}
         defaultValue={currentNode?.textContent ?? undefined}
       >
-        {props.children}
+        {children}
       </select>
     );
   }

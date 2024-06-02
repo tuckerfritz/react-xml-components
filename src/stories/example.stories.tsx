@@ -32,7 +32,7 @@ export function App() {
 
   const handleSubmit = () => {
     if (editorRef.current) {
-      let updatedXml = editorRef.current.getXmlString();
+      const updatedXml = editorRef.current.getXmlString();
       console.log(updatedXml);
     }
   };
@@ -40,7 +40,7 @@ export function App() {
   return (
     <main className="m-4">
       <form
-        onSubmit={(e: any) => {
+        onSubmit={(e: React.FormEvent<HTMLFormElement>) => {
           e.preventDefault();
           console.log(e);
         }}

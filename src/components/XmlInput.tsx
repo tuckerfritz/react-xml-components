@@ -7,33 +7,33 @@ import {
 } from "react";
 import NodeContext from "../contexts/Node.context";
 
-type XmlInputFieldProps = {} & DetailedHTMLProps<
+type XmlInputFieldProps = DetailedHTMLProps<
   InputHTMLAttributes<HTMLInputElement>,
   HTMLInputElement
 >;
 
 const XmlInput = forwardRef<HTMLInputElement, XmlInputFieldProps>(
-  (props, inputRef) => {
+  ({className, onChange, ...rest}, inputRef) => {
     const { currentNode, level } = useContext(NodeContext);
 
-    const onChange = useCallback(
+    const handleOnChange = useCallback(
       (event: React.ChangeEvent<HTMLInputElement>) => {
-        if (props.onChange) {
-          props.onChange(event);
+        if (onChange) {
+          onChange(event);
         }
         if (currentNode) currentNode.textContent = event.target.value;
       },
-      [currentNode]
+      [currentNode, onChange]
     );
 
     return (
       <input
-        {...props}
+        {...rest}
         ref={inputRef}
         className={
-          props.className ? `rxml__input ${props.className}` : "rxml__input"
+          className ? `rxml__input ${className}` : "rxml__input"
         }
-        onChange={onChange}
+        onChange={handleOnChange}
         defaultValue={currentNode?.textContent ?? undefined}
         data-level={level}
       />

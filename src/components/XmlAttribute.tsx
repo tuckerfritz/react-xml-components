@@ -28,7 +28,7 @@ const XmlAttribute = ({ name, children }: XmlAttributeProps) => {
       throw Error(`Attribute ${name} Not Found`);
     }
     return attribute.singleNodeValue;
-  }, [xmlDoc]);
+  }, [xmlDoc, currentNodePath, name, nsResolver]);
 
   const nodeContextValue: NodeContextType = useMemo(
     () => ({

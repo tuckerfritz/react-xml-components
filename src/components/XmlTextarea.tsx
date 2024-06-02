@@ -7,33 +7,31 @@ import {
 } from "react";
 import NodeContext from "../contexts/Node.context";
 
-type XmlTextareaFieldProps = {} & DetailedHTMLProps<
+type XmlTextareaFieldProps = DetailedHTMLProps<
   TextareaHTMLAttributes<HTMLTextAreaElement>,
   HTMLTextAreaElement
 >;
 
 const XmlTextarea = forwardRef<HTMLTextAreaElement, XmlTextareaFieldProps>(
-  (props, textareaRef) => {
+  ({ className, onChange, ...rest }, textareaRef) => {
     const { currentNode, level } = useContext(NodeContext);
 
-    const onChange = useCallback(
+    const handleOnChange = useCallback(
       (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-        if (props.onChange) {
-          props.onChange(event);
+        if (onChange) {
+          onChange(event);
         }
         if (currentNode) currentNode.textContent = event.target.value;
       },
-      [currentNode]
+      [currentNode, onChange]
     );
 
     return (
       <textarea
-        {...props}
+        {...rest}
         ref={textareaRef}
-        className={
-          props.className ? `rxml__textarea ${props.className}` : "rxml__textarea"
-        }
-        onChange={onChange}
+        className={className ? `rxml__textarea ${className}` : "rxml__textarea"}
+        onChange={handleOnChange}
         defaultValue={currentNode?.textContent ?? undefined}
         data-level={level}
       />
