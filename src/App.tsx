@@ -40,7 +40,7 @@ function App() {
           console.log(e);
         }}
       >
-        <XmlEditor ref={editorRef} xml={initialXml}>
+        <XmlEditor ref={editorRef} initialXml={initialXml}>
           <XmlElement name="bookstore">
             <XmlElement name="book" index={0}>
               <XmlElement name="title">

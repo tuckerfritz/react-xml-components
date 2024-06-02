@@ -4,7 +4,7 @@ import LevelContext from "../contexts/Level.context";
 import NodeContext from "../contexts/Node.context";
 
 type XmlEditorProps = {
-  xml: string | XMLDocument;
+  initialXml: string | XMLDocument;
 };
 
 export type XmlEditorRef = {
@@ -13,15 +13,15 @@ export type XmlEditorRef = {
   setXmlDocument: (xml: XMLDocument | string) => void;
 };
 
-const XmlEditor = forwardRef<XmlEditorRef, PropsWithChildren<XmlEditorProps>>(({ xml, children }, ref) => {
-  const initialXml = useMemo(
+const XmlEditor = forwardRef<XmlEditorRef, PropsWithChildren<XmlEditorProps>>(({ initialXml, children }, ref) => {
+  const initialXmlDoc = useMemo(
     () =>
-      typeof xml === "string"
-        ? new DOMParser().parseFromString(xml, "application/xml")
-        : xml,
+      typeof initialXml === "string"
+        ? new DOMParser().parseFromString(initialXml, "application/xml")
+        : initialXml,
     []
   );
-  const xmlDocRef = useRef<XMLDocument>(initialXml);
+  const xmlDocRef = useRef<XMLDocument>(initialXmlDoc);
 
   useImperativeHandle(
     ref,
