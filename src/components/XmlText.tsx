@@ -1,27 +1,26 @@
 import { useContext, useMemo } from "react";
 import NodeContext, { NodeContextType } from "../contexts/Node.context";
 
-type Context = {
-  xmlDoc: XMLDocument;
-  node: Node;
-  level: number;
-};
-
 type XmlTextProps = {
   index?: number;
-  children?: ((context: Context) => React.ReactNode) | React.ReactNode;
+  children?: ((context: NodeContextType) => React.ReactNode) | React.ReactNode;
 };
 
 const XmlText = ({ children, index = 0 }: XmlTextProps) => {
-  const { xmlDoc, currentNodePath: ancestorNodePath, node: parentNode, level } = useContext(NodeContext);
+  const {
+    xmlDoc,
+    currentNodePath: parentNodePath,
+    currentNode: parentNode,
+    level,
+  } = useContext(NodeContext);
 
   const nthNode = index + 1;
   const currentNodePath =
     level === -1
       ? `/text()[${nthNode}]`
-      : `${ancestorNodePath}/text()[${nthNode}]`;
+      : `${parentNodePath}/text()[${nthNode}]`;
 
-  const textNode = useMemo(() => {
+  const currentNode = useMemo(() => {
     const element = xmlDoc.evaluate(
       currentNodePath,
       xmlDoc.getRootNode(),
@@ -39,19 +38,17 @@ const XmlText = ({ children, index = 0 }: XmlTextProps) => {
     () => ({
       xmlDoc,
       currentNodePath,
-      node: textNode,
-      ancestorNodePath,
+      currentNode,
+      parentNodePath,
       parentNode,
       level: level + 1,
     }),
-    [xmlDoc, currentNodePath, parentNode, textNode, level]
+    [xmlDoc, currentNodePath, currentNode, parentNode, parentNodePath, level]
   );
 
   return (
     <NodeContext.Provider value={nodeContextValue}>
-      {typeof children === "function"
-        ? children({ xmlDoc, node: textNode, level })
-        : children}
+      {typeof children === "function" ? children(nodeContextValue) : children}
     </NodeContext.Provider>
   );
 };

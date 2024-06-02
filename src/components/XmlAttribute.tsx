@@ -9,14 +9,14 @@ type XmlAttributeProps = {
 const XmlAttribute = ({ name, children }: XmlAttributeProps) => {
   const {
     xmlDoc,
-    currentNodePath: ancestorNodePath,
-    node: parentNode,
+    currentNodePath: parentNodePath,
+    currentNode: parentNode,
     level,
   } = useContext(NodeContext);
 
-  const currentNodePath = `${ancestorNodePath}/@${name}`;
+  const currentNodePath = `${parentNodePath}/@${name}`;
 
-  const attributeNode = useMemo(() => {
+  const currentNode = useMemo(() => {
     const attribute = xmlDoc.evaluate(
       currentNodePath,
       xmlDoc.getRootNode(),
@@ -33,12 +33,12 @@ const XmlAttribute = ({ name, children }: XmlAttributeProps) => {
     () => ({
       xmlDoc,
       currentNodePath,
-      node: attributeNode,
-      ancestorNodePath,
+      currentNode,
+      parentNodePath,
       parentNode,
       level: level + 1,
     }),
-    [xmlDoc, currentNodePath, parentNode, attributeNode, level]
+    [xmlDoc, currentNodePath, currentNode, parentNode, parentNodePath, level]
   );
 
   return (

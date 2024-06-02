@@ -14,11 +14,11 @@ type XmlInputFieldProps = {} & DetailedHTMLProps<
 
 const XmlInput = forwardRef<HTMLInputElement, XmlInputFieldProps>(
   (props, inputRef) => {
-    const { xmlDoc, currentNodePath: ancestorNodePath, level } = useContext(NodeContext);
+    const { xmlDoc, currentNodePath: parentNodePath, level } = useContext(NodeContext);
 
     const node = useMemo(() => {
       const text = xmlDoc.evaluate(
-        ancestorNodePath ?? "",
+        parentNodePath ?? "",
         xmlDoc.getRootNode(),
         null,
         XPathResult.FIRST_ORDERED_NODE_TYPE

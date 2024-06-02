@@ -58,7 +58,7 @@ function App() {
                 {(context) => (
                   <>
                     <label>Price Element</label>
-                    <div>{context.node.textContent}</div>
+                    <div>{context.currentNode?.textContent}</div>
                   </>
                 )}
               </XmlElement>
@@ -69,7 +69,7 @@ function App() {
                   {(context) => (
                     <>
                       <label>Language Attribute</label>
-                      <div>{context.node?.textContent}</div>
+                      <div>{context.currentNode?.textContent}</div>
                     </>
                   )}
                 </XmlAttribute>

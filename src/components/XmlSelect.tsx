@@ -15,11 +15,11 @@ type XmlSelectProps = {} & DetailedHTMLProps<
 
 const XmlSelect = forwardRef<HTMLSelectElement, XmlSelectProps>(
   (props, selectRef) => {
-    const { xmlDoc, currentNodePath: ancestorNodePath, level } = useContext(NodeContext);
+    const { xmlDoc, currentNodePath: parentNodePath, level } = useContext(NodeContext);
 
-    const node = useMemo(() => {
+    const currentNode = useMemo(() => {
       const text = xmlDoc.evaluate(
-        ancestorNodePath,
+        parentNodePath,
         xmlDoc.getRootNode(),
         null,
         XPathResult.FIRST_ORDERED_NODE_TYPE
@@ -35,9 +35,9 @@ const XmlSelect = forwardRef<HTMLSelectElement, XmlSelectProps>(
         if (props.onChange) {
           props.onChange(event);
         }
-        node.textContent = event.target.value;
+        currentNode.textContent = event.target.value;
       },
-      [node]
+      [currentNode]
     );
 
     return (
@@ -49,7 +49,7 @@ const XmlSelect = forwardRef<HTMLSelectElement, XmlSelectProps>(
         }
         onChange={onChange}
         data-level={level}
-        defaultValue={node.textContent ?? undefined}
+        defaultValue={currentNode.textContent ?? undefined}
       >
         {props.children}
       </select>

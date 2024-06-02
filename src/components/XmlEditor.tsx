@@ -57,8 +57,8 @@ const XmlEditor = forwardRef<XmlEditorRef, PropsWithChildren<XmlEditorProps>>(
       () => ({
         xmlDoc: xmlDocRef.current,
         currentNodePath: "/",
-        node: null,
-        ancestorNodePath: null,
+        currentNode: null,
+        parentNodePath: null,
         parentNode: null,
         level: -1,
       }),
