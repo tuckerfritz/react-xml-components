@@ -66,4 +66,6 @@ const XmlEditor = forwardRef<XmlEditorRef, PropsWithChildren<XmlEditorProps>>(({
   );
 });
 
+XmlEditor.displayName = "XmlEditor";
+
 export default XmlEditor;

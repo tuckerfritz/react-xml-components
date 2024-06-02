@@ -56,4 +56,6 @@ const XmlInput = forwardRef<HTMLInputElement, XmlInputFieldProps>(
   }
 );
 
+XmlInput.displayName = "XmlInput";
+
 export default XmlInput;

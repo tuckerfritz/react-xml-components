@@ -61,4 +61,6 @@ const XmlSelect = forwardRef<HTMLSelectElement, XmlSelectProps>(
   }
 );
 
+XmlSelect.displayName = "XmlSelect";
+
 export default XmlSelect;
