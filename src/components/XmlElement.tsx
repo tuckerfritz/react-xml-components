@@ -1,7 +1,6 @@
 import { useContext, useMemo } from "react";
 import NodeContext, { NodeContextType } from "../contexts/Node.context";
 
-
 type XmlElementProps = {
   name: string;
   index?: number;
@@ -11,13 +10,13 @@ type XmlElementProps = {
 const XmlElement = ({ name, children, index = 0 }: XmlElementProps) => {
   const {
     currentNodePath: parentNodePath,
-    level,
+    level: parentLevel,
     xmlDoc,
     currentNode: parentNode,
   } = useContext(NodeContext);
 
   const currentNodePath =
-    level === -1 ? `/${name}` : `${parentNodePath}/${name}[${index + 1}]`;
+    parentLevel === 0 ? `/${name}` : `${parentNodePath}/${name}[${index + 1}]`;
 
   const currentNode = useMemo(() => {
     const element = xmlDoc.evaluate(
@@ -39,16 +38,14 @@ const XmlElement = ({ name, children, index = 0 }: XmlElementProps) => {
       currentNode,
       parentNodePath,
       parentNode,
-      level: level + 1,
+      level: parentLevel + 1,
     }),
-    [xmlDoc, currentNodePath, currentNode, parentNodePath, parentNode, level]
+    [xmlDoc, currentNodePath, currentNode, parentNodePath, parentNode, parentLevel]
   );
 
   return (
     <NodeContext.Provider value={nodeContextValue}>
-      {typeof children === "function"
-        ? children(nodeContextValue)
-        : children}
+      {typeof children === "function" ? children(nodeContextValue) : children}
     </NodeContext.Provider>
   );
 };

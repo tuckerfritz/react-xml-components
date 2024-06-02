@@ -11,7 +11,7 @@ const XmlAttribute = ({ name, children }: XmlAttributeProps) => {
     xmlDoc,
     currentNodePath: parentNodePath,
     currentNode: parentNode,
-    level,
+    level: parentLevel,
   } = useContext(NodeContext);
 
   const currentNodePath = `${parentNodePath}/@${name}`;
@@ -27,7 +27,7 @@ const XmlAttribute = ({ name, children }: XmlAttributeProps) => {
       throw Error(`Attribute ${name} Not Found`);
     }
     return attribute.singleNodeValue;
-  }, [xmlDoc, level]);
+  }, [xmlDoc]);
 
   const nodeContextValue: NodeContextType = useMemo(
     () => ({
@@ -36,9 +36,9 @@ const XmlAttribute = ({ name, children }: XmlAttributeProps) => {
       currentNode,
       parentNodePath,
       parentNode,
-      level: level + 1,
+      level: parentLevel + 1,
     }),
-    [xmlDoc, currentNodePath, currentNode, parentNode, parentNodePath, level]
+    [xmlDoc, currentNodePath, currentNode, parentNode, parentNodePath, parentLevel]
   );
 
   return (

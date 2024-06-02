@@ -11,12 +11,12 @@ const XmlText = ({ children, index = 0 }: XmlTextProps) => {
     xmlDoc,
     currentNodePath: parentNodePath,
     currentNode: parentNode,
-    level,
+    level: parentLevel,
   } = useContext(NodeContext);
 
   const nthNode = index + 1;
   const currentNodePath =
-    level === -1
+    parentLevel === 0
       ? `/text()[${nthNode}]`
       : `${parentNodePath}/text()[${nthNode}]`;
 
@@ -40,9 +40,9 @@ const XmlText = ({ children, index = 0 }: XmlTextProps) => {
       currentNode,
       parentNodePath,
       parentNode,
-      level: level + 1,
+      level: parentLevel + 1,
     }),
-    [xmlDoc, currentNodePath, currentNode, parentNode, parentNodePath, level]
+    [xmlDoc, currentNodePath, currentNode, parentNode, parentNodePath, parentLevel]
   );
 
   return (

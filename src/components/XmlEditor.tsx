@@ -57,10 +57,10 @@ const XmlEditor = forwardRef<XmlEditorRef, PropsWithChildren<XmlEditorProps>>(
       () => ({
         xmlDoc: xmlDocRef.current,
         currentNodePath: "/",
-        currentNode: null,
+        currentNode: xmlDocRef.current.getRootNode(),
         parentNodePath: null,
         parentNode: null,
-        level: -1,
+        level: 0,
       }),
       [xmlDocRef.current]
     );
