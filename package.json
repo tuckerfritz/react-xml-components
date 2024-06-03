@@ -1,5 +1,5 @@
 {
-  "name": "react-xml-components",
+  "name": "@tuckerfritz/react-xml-components",
   "version": "0.1.0",
   "description": "A React component library for editing XML documents.",
   "keywords": [
@@ -59,6 +59,6 @@
     "typescript": "^5.2.2"
   },
   "publishConfig": {
-    "registry": "https://npm.pkg.github.com"
+    "@tuckerfritz:registry": "https://npm.pkg.github.com"
   }
 }
