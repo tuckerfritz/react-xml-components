@@ -1,25 +1,22 @@
 import { useContext, useMemo } from "react";
-import { NodeContext, NodeContextType } from "../contexts/Node.context";
+import { NodeContext, NodeContextType } from "@src/contexts/Node.context";
 
-type XmlTextProps = {
+type XMLElementProps = {
+  name: string;
   index?: number;
   children?: ((context: NodeContextType) => React.ReactNode) | React.ReactNode;
 };
 
-const XmlText = ({ children, index = 0 }: XmlTextProps) => {
+const XMLElement = ({ name, children, index = 0 }: XMLElementProps) => {
   const {
-    xmlDoc,
     currentNodePath: parentNodePath,
-    currentNode: parentNode,
     level: parentLevel,
+    xmlDoc,
     nsResolver,
   } = useContext(NodeContext);
 
-  const nthNode = index + 1;
   const currentNodePath =
-    parentLevel === 0
-      ? `/text()[${nthNode}]`
-      : `${parentNodePath}/text()[${nthNode}]`;
+    parentLevel === 0 ? `/${name}` : `${parentNodePath}/${name}[${index + 1}]`;
 
   const currentNode = useMemo(() => {
     const element = xmlDoc.evaluate(
@@ -29,30 +26,20 @@ const XmlText = ({ children, index = 0 }: XmlTextProps) => {
       XPathResult.FIRST_ORDERED_NODE_TYPE,
     );
     if (element.singleNodeValue === null) {
-      throw Error("Text Node Not Found");
+      throw Error(`Element ${name} Not Found`);
     }
     return element.singleNodeValue;
-  }, [xmlDoc, currentNodePath, nsResolver]);
+  }, [xmlDoc, currentNodePath, nsResolver, name]);
 
   const nodeContextValue: NodeContextType = useMemo(
     () => ({
       xmlDoc,
       currentNodePath,
       currentNode,
-      parentNodePath,
-      parentNode,
       level: parentLevel + 1,
       nsResolver,
     }),
-    [
-      xmlDoc,
-      currentNodePath,
-      currentNode,
-      parentNode,
-      parentNodePath,
-      parentLevel,
-      nsResolver,
-    ],
+    [xmlDoc, currentNodePath, currentNode, parentLevel, nsResolver],
   );
 
   return (
@@ -62,4 +49,6 @@ const XmlText = ({ children, index = 0 }: XmlTextProps) => {
   );
 };
 
-export default XmlText;
+XMLElement.displayName = "XMLElement";
+
+export default XMLElement;

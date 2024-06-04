@@ -5,32 +5,35 @@ import {
   useMemo,
   useRef,
 } from "react";
-import { NodeContext, NodeContextType } from "../contexts/Node.context";
+import { NodeContext, NodeContextType } from "../../contexts/Node.context";
 
-type XmlEditorProps = {
-  initialXml: string | XMLDocument;
+type XMLDocumentProps = {
+  initialDoc: string | XMLDocument;
   nsResolver?: XPathNSResolver;
+  type?: DOMParserSupportedType;
 };
 
-export type XmlEditorRefType = {
+export type XMLDocumentRefType = {
   getXmlDocument: () => XMLDocument;
   getXmlString: () => string;
   setXmlDocument: (xml: XMLDocument | string) => void;
 };
 
-const XmlEditor = forwardRef<
-  XmlEditorRefType,
-  PropsWithChildren<XmlEditorProps>
->(({ initialXml, nsResolver, children }, ref) => {
-  const initialXmlDoc = useMemo(
+const XMLDocument = forwardRef<
+  XMLDocumentRefType,
+  PropsWithChildren<XMLDocumentProps>
+>(({ initialDoc, nsResolver, children, type = "application/xml" }, ref) => {
+  const xmlDocParsed: XMLDocument = useMemo(
     () =>
-      typeof initialXml === "string"
-        ? new DOMParser().parseFromString(initialXml, "application/xml")
-        : initialXml,
+      typeof initialDoc === "string"
+        ? new DOMParser().parseFromString(initialDoc, type)
+        : initialDoc,
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [],
   );
-  const xmlDocRef = useRef<XMLDocument>(initialXmlDoc);
+  const xmlDocRef = useRef<XMLDocument>(xmlDocParsed);
+
+  xmlDocRef.current = xmlDocParsed;
 
   useImperativeHandle(ref, () => {
     return {
@@ -56,10 +59,8 @@ const XmlEditor = forwardRef<
   const nodeContextValue: NodeContextType = useMemo(
     () => ({
       xmlDoc: xmlDocRef.current,
-      currentNodePath: "/",
-      currentNode: xmlDocRef.current.getRootNode(),
-      parentNodePath: null,
-      parentNode: null,
+      currentNodePath: "",
+      currentNode: xmlDocRef.current,
       level: 0,
       nsResolver,
     }),
@@ -73,6 +74,6 @@ const XmlEditor = forwardRef<
   );
 });
 
-XmlEditor.displayName = "XmlEditor";
+XMLDocument.displayName = "XMLDocument";
 
-export default XmlEditor;
+export default XMLDocument;

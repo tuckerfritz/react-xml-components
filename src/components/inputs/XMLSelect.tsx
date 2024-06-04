@@ -5,14 +5,14 @@ import {
   useCallback,
   useContext,
 } from "react";
-import { NodeContext } from "../contexts/Node.context";
+import { NodeContext } from "@src/contexts/Node.context";
 
-type XmlSelectProps = DetailedHTMLProps<
+type XMLSelectProps = DetailedHTMLProps<
   SelectHTMLAttributes<HTMLSelectElement>,
   HTMLSelectElement
 >;
 
-const XmlSelect = forwardRef<HTMLSelectElement, XmlSelectProps>(
+const XMLSelect = forwardRef<HTMLSelectElement, XMLSelectProps>(
   ({ className, onChange, children, ...rest }, selectRef) => {
     const { currentNode, level } = useContext(NodeContext);
 
@@ -41,6 +41,6 @@ const XmlSelect = forwardRef<HTMLSelectElement, XmlSelectProps>(
   },
 );
 
-XmlSelect.displayName = "XmlSelect";
+XMLSelect.displayName = "XmlSelect";
 
-export default XmlSelect;
+export default XMLSelect;

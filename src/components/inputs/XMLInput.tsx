@@ -5,14 +5,14 @@ import {
   useCallback,
   useContext,
 } from "react";
-import { NodeContext } from "../contexts/Node.context";
+import { NodeContext } from "@src/contexts/Node.context";
 
-type XmlInputFieldProps = DetailedHTMLProps<
+type XMLInputFieldProps = DetailedHTMLProps<
   InputHTMLAttributes<HTMLInputElement>,
   HTMLInputElement
 >;
 
-const XmlInput = forwardRef<HTMLInputElement, XmlInputFieldProps>(
+const XMLInput = forwardRef<HTMLInputElement, XMLInputFieldProps>(
   ({ className, onChange, ...rest }, inputRef) => {
     const { currentNode, level } = useContext(NodeContext);
 
@@ -39,6 +39,6 @@ const XmlInput = forwardRef<HTMLInputElement, XmlInputFieldProps>(
   },
 );
 
-XmlInput.displayName = "XmlInput";
+XMLInput.displayName = "XmlInput";
 
-export default XmlInput;
+export default XMLInput;

@@ -5,14 +5,14 @@ import {
   useCallback,
   useContext,
 } from "react";
-import { NodeContext } from "../contexts/Node.context";
+import { NodeContext } from "@src/contexts/Node.context";
 
-type XmlTextareaFieldProps = DetailedHTMLProps<
+type XMLTextAreaFieldProps = DetailedHTMLProps<
   TextareaHTMLAttributes<HTMLTextAreaElement>,
   HTMLTextAreaElement
 >;
 
-const XmlTextarea = forwardRef<HTMLTextAreaElement, XmlTextareaFieldProps>(
+const XMLTextArea = forwardRef<HTMLTextAreaElement, XMLTextAreaFieldProps>(
   ({ className, onChange, ...rest }, textareaRef) => {
     const { currentNode, level } = useContext(NodeContext);
 
@@ -39,6 +39,6 @@ const XmlTextarea = forwardRef<HTMLTextAreaElement, XmlTextareaFieldProps>(
   },
 );
 
-XmlTextarea.displayName = "XmlTextarea";
+XMLTextArea.displayName = "XMLTextArea";
 
-export default XmlTextarea;
+export default XMLTextArea;

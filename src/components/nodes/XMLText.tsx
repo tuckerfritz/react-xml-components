@@ -1,54 +1,47 @@
 import { useContext, useMemo } from "react";
-import { NodeContext, NodeContextType } from "../contexts/Node.context";
+import { NodeContext, NodeContextType } from "@src/contexts/Node.context";
 
-type XmlAttributeProps = {
-  name: string;
+type XMLTextProps = {
+  index?: number;
   children?: ((context: NodeContextType) => React.ReactNode) | React.ReactNode;
 };
 
-const XmlAttribute = ({ name, children }: XmlAttributeProps) => {
+const XMLText = ({ children, index = 0 }: XMLTextProps) => {
   const {
     xmlDoc,
     currentNodePath: parentNodePath,
-    currentNode: parentNode,
     level: parentLevel,
     nsResolver,
   } = useContext(NodeContext);
 
-  const currentNodePath = `${parentNodePath}/@${name}`;
+  const nthNode = index + 1;
+  const currentNodePath =
+    parentLevel === 0
+      ? `/text()[${nthNode}]`
+      : `${parentNodePath}/text()[${nthNode}]`;
 
   const currentNode = useMemo(() => {
-    const attribute = xmlDoc.evaluate(
+    const element = xmlDoc.evaluate(
       currentNodePath,
       xmlDoc.getRootNode(),
       nsResolver,
       XPathResult.FIRST_ORDERED_NODE_TYPE,
     );
-    if (attribute.singleNodeValue === null) {
-      throw Error(`Attribute ${name} Not Found`);
+    if (element.singleNodeValue === null) {
+      throw Error("Text Node Not Found");
     }
-    return attribute.singleNodeValue;
-  }, [xmlDoc, currentNodePath, name, nsResolver]);
+    return element.singleNodeValue;
+  }, [xmlDoc, currentNodePath, nsResolver]);
 
   const nodeContextValue: NodeContextType = useMemo(
     () => ({
       xmlDoc,
       currentNodePath,
       currentNode,
-      parentNodePath,
-      parentNode,
       level: parentLevel + 1,
       nsResolver,
     }),
-    [
-      xmlDoc,
-      currentNodePath,
-      currentNode,
-      parentNode,
-      parentNodePath,
-      parentLevel,
-      nsResolver,
-    ],
+    [xmlDoc, currentNodePath, currentNode, parentLevel, nsResolver],
   );
 
   return (
@@ -58,4 +51,5 @@ const XmlAttribute = ({ name, children }: XmlAttributeProps) => {
   );
 };
 
-export default XmlAttribute;
+XMLText.displayName = "XMLText";
+export default XMLText;

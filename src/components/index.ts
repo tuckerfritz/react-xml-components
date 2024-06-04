@@ -1,19 +1,19 @@
-export { type XmlEditorRefType } from "./XmlEditor";
+import XMLDocument from "@src/components/nodes/XMLDocument";
+import XMLRoot from "@src/components/nodes/XMLRoot";
+import XMLElement from "@src/components/nodes/XMLElement";
+import XMLAttribute from "@src/components/nodes/XMLAttribute";
+import XMLText from "@src/components/nodes/XMLText";
 
-import XmlAttribute from "./XmlAttribute";
-import XmlEditor from "./XmlEditor";
-import XmlElement from "./XmlElement";
-import XmlInput from "./XmlInput";
-import XmlSelect from "./XmlSelect";
-import XmlText from "./XmlText";
-import XmlTextarea from "./XmlTextarea";
+export { default as Input } from "@src/components/inputs/XMLInput";
+export { default as Select } from "@src/components/inputs/XMLSelect";
+export { default as TextArea } from "@src/components/inputs/XMLTextArea";
 
-export const Xml = {
-  Attribute: XmlAttribute,
-  Root: XmlEditor,
-  Element: XmlElement,
-  Input: XmlInput,
-  Select: XmlSelect,
-  Text: XmlText,
-  Textarea: XmlTextarea,
-};
+export { type XMLDocumentRefType } from "@src/components/nodes/XMLDocument";
+
+// Namespace the node components under XML using XMLDocument as the base component
+export const XML = Object.assign(XMLDocument, {
+  Root: XMLRoot,
+  Element: XMLElement,
+  Attribute: XMLAttribute,
+  Text: XMLText,
+});
