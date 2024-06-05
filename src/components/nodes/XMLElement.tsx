@@ -1,5 +1,6 @@
 import { useContext, useMemo } from "react";
 import { NodeContext, NodeContextType } from "@src/contexts/Node.context";
+import { validateElementName } from "@src/utils/sanitizeElementName";
 
 type XMLElementProps = {
   name: string;
@@ -19,6 +20,7 @@ const XMLElement = ({ name, children, index = 0 }: XMLElementProps) => {
     parentLevel === 0 ? `/${name}` : `${parentNodePath}/${name}[${index + 1}]`;
 
   const currentNode = useMemo(() => {
+    validateElementName(name);
     const element = xmlDoc.evaluate(
       currentNodePath,
       xmlDoc.getRootNode(),
