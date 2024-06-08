@@ -1,5 +1,6 @@
 import { useContext, useMemo } from "react";
 import { NodeContext, NodeContextType } from "@src/contexts/Node.context";
+import { NodeTypeEnum, useCurrentNode } from "@src/utils/useCurrentNode";
 
 type XMLTextProps = {
   index?: number;
@@ -9,39 +10,25 @@ type XMLTextProps = {
 const XMLText = ({ children, index = 0 }: XMLTextProps) => {
   const {
     xmlDoc,
-    currentNodePath: parentNodePath,
+    currentNode: parentNode,
     level: parentLevel,
-    nsResolver,
   } = useContext(NodeContext);
 
-  const nthNode = index + 1;
-  const currentNodePath =
-    parentLevel === 0
-      ? `/text()[${nthNode}]`
-      : `${parentNodePath}/text()[${nthNode}]`;
-
-  const currentNode = useMemo(() => {
-    const element = xmlDoc.evaluate(
-      currentNodePath,
-      xmlDoc.getRootNode(),
-      nsResolver,
-      XPathResult.FIRST_ORDERED_NODE_TYPE,
-    );
-    if (element.singleNodeValue === null) {
-      throw Error("Text Node Not Found");
-    }
-    return element.singleNodeValue;
-  }, [xmlDoc, currentNodePath, nsResolver]);
+  const currentNode = useCurrentNode(
+    xmlDoc,
+    NodeTypeEnum.TEXT,
+    parentNode,
+    undefined,
+    index,
+  );
 
   const nodeContextValue: NodeContextType = useMemo(
     () => ({
       xmlDoc,
-      currentNodePath,
       currentNode,
       level: parentLevel + 1,
-      nsResolver,
     }),
-    [xmlDoc, currentNodePath, currentNode, parentLevel, nsResolver],
+    [xmlDoc, currentNode, parentLevel],
   );
 
   return (

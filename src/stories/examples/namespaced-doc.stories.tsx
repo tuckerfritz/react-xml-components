@@ -9,13 +9,6 @@ const initialDoc = `<xhtml:table xmlns:xhtml="http://www.w3.org/TR/html4/">
     <xhtml:td>Bananas</xhtml:td>
   </xhtml:tr>
 </xhtml:table>`;
-const nsResolver: XPathNSResolver = (prefix: string | null) => {
-  console.log(prefix);
-  if (prefix === "xhtml") {
-    return "http://www.w3.org/TR/html4/";
-  }
-  return null;
-};
 export function NamespacedDocument() {
   const editorRef = useRef<XMLDocumentRefType>(null);
   const [xml, setXml] = useState(initialDoc);
@@ -35,7 +28,7 @@ export function NamespacedDocument() {
           handleSubmit();
         }}
       >
-        <XML ref={editorRef} initialDoc={xml} nsResolver={nsResolver}>
+        <XML ref={editorRef} initialDoc={xml}>
           <XML.Root>
             <XML.Element name="xhtml:table">
               <XML.Element name="xhtml:tr">

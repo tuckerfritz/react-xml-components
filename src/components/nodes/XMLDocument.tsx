@@ -9,7 +9,6 @@ import { NodeContext, NodeContextType } from "../../contexts/Node.context";
 
 type XMLDocumentProps = {
   initialDoc: string | XMLDocument;
-  nsResolver?: XPathNSResolver;
   type?: DOMParserSupportedType;
 };
 
@@ -22,7 +21,7 @@ export type XMLDocumentRefType = {
 const XMLDocument = forwardRef<
   XMLDocumentRefType,
   PropsWithChildren<XMLDocumentProps>
->(({ initialDoc, nsResolver, children, type = "application/xml" }, ref) => {
+>(({ initialDoc, children, type = "application/xml" }, ref) => {
   const xmlDocParsed: XMLDocument = useMemo(
     () =>
       typeof initialDoc === "string"
@@ -32,8 +31,6 @@ const XMLDocument = forwardRef<
     [],
   );
   const xmlDocRef = useRef<XMLDocument>(xmlDocParsed);
-
-  xmlDocRef.current = xmlDocParsed;
 
   useImperativeHandle(ref, () => {
     return {
@@ -62,9 +59,8 @@ const XMLDocument = forwardRef<
       currentNodePath: "",
       currentNode: xmlDocRef.current,
       level: 0,
-      nsResolver,
     }),
-    [nsResolver],
+    [],
   );
 
   return (

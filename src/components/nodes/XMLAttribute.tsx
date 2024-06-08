@@ -1,5 +1,6 @@
 import { useContext, useMemo } from "react";
 import { NodeContext, NodeContextType } from "@src/contexts/Node.context";
+import { NodeTypeEnum, useCurrentNode } from "@src/utils/useCurrentNode";
 
 type XMLAttributeProps = {
   name: string;
@@ -9,35 +10,24 @@ type XMLAttributeProps = {
 const XMLAttribute = ({ name, children }: XMLAttributeProps) => {
   const {
     xmlDoc,
-    currentNodePath: parentNodePath,
+    currentNode: parentNode,
     level: parentLevel,
-    nsResolver,
   } = useContext(NodeContext);
 
-  const currentNodePath = `${parentNodePath}/@${name}`;
-
-  const currentNode = useMemo(() => {
-    const attribute = xmlDoc.evaluate(
-      currentNodePath,
-      xmlDoc.getRootNode(),
-      nsResolver,
-      XPathResult.FIRST_ORDERED_NODE_TYPE,
-    );
-    if (attribute.singleNodeValue === null) {
-      throw Error(`Attribute ${name} Not Found`);
-    }
-    return attribute.singleNodeValue;
-  }, [xmlDoc, currentNodePath, name, nsResolver]);
+  const currentNode = useCurrentNode(
+    xmlDoc,
+    NodeTypeEnum.ATTRIBUTE,
+    parentNode,
+    name,
+  );
 
   const nodeContextValue: NodeContextType = useMemo(
     () => ({
       xmlDoc,
-      currentNodePath,
       currentNode,
       level: parentLevel + 1,
-      nsResolver,
     }),
-    [xmlDoc, currentNodePath, currentNode, parentLevel, nsResolver],
+    [xmlDoc, currentNode, parentLevel],
   );
 
   return (

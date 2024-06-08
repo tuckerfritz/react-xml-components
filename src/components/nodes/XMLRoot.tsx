@@ -6,7 +6,7 @@ type XMLRootProps = {
 };
 
 const XMLRoot = ({ children }: XMLRootProps) => {
-  const { level: parentLevel, xmlDoc, nsResolver } = useContext(NodeContext);
+  const { level: parentLevel, xmlDoc } = useContext(NodeContext);
 
   const currentNode = useMemo(() => {
     return xmlDoc.getRootNode();
@@ -18,9 +18,8 @@ const XMLRoot = ({ children }: XMLRootProps) => {
       currentNodePath: "/",
       currentNode,
       level: parentLevel + 1,
-      nsResolver,
     }),
-    [xmlDoc, currentNode, parentLevel, nsResolver],
+    [xmlDoc, currentNode, parentLevel],
   );
 
   return (
