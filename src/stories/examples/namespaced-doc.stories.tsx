@@ -32,10 +32,10 @@ export function NamespacedDocument() {
           <XML.Root>
             <XML.Element name="xhtml:table">
               <XML.Element name="xhtml:tr">
-                <XML.Element name="xhtml:td" index={0}>
+                <XML.Element name="xhtml:td.0">
                   <Input />
                 </XML.Element>
-                <XML.Element name="xhtml:td" index={1}>
+                <XML.Element name="xhtml:td.1">
                   <Input />
                 </XML.Element>
               </XML.Element>

@@ -4,11 +4,10 @@ import { NodeTypeEnum, useCurrentNode } from "@src/utils/useCurrentNode";
 
 type XMLElementProps = {
   name: string;
-  index?: number;
   children?: ((context: NodeContextType) => React.ReactNode) | React.ReactNode;
 };
 
-const XMLElement = ({ name, children, index = 0 }: XMLElementProps) => {
+const XMLElement = ({ name, children }: XMLElementProps) => {
   const {
     xmlDoc,
     currentNode: parentNode,
@@ -20,7 +19,6 @@ const XMLElement = ({ name, children, index = 0 }: XMLElementProps) => {
     NodeTypeEnum.ELEMENT,
     parentNode,
     name,
-    index,
   );
 
   const nodeContextValue: NodeContextType = useMemo(
