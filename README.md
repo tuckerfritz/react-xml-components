@@ -46,18 +46,16 @@ export function Example() {
         }}
       >
         <XML ref={editorRef} initialDoc={xml}>
-          <XML.Root>
-            <XML.Element name="bookstore">
-              <XML.Element name="book">
-                <XML.Element name="title">
-                  <Input/>
-                </XML.Element>
-                <XML.Element name="price">
-                  <Input/>
-                </XML.Element>
+          <XML.Element name="bookstore">
+            <XML.Element name="book">
+              <XML.Element name="title">
+                <Input/>
+              </XML.Element>
+              <XML.Element name="price">
+                <Input/>
               </XML.Element>
             </XML.Element>
-          </XML.Root>
+          </XML.Element>
         </XML>
         <button type="submit">submit</button>
       </form>
@@ -76,7 +74,6 @@ This library splits components into two types:
 <pre>
 1) Components representing the XML Document and XML nodes:
   * XML
-  * XML.Root
   * XML.Element
   * XML.Attribute
   * XML.Text

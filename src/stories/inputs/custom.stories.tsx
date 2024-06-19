@@ -45,11 +45,9 @@ export function CustomInput() {
         }}
       >
         <XML ref={editorRef} initialDoc={xml}>
-          <XML.Root>
-            <XML.Element name="price">
-              <CurrencyInput />
-            </XML.Element>
-          </XML.Root>
+          <XML.Element name="price">
+            <CurrencyInput />
+          </XML.Element>
         </XML>
         <button className="example__button" type="submit">
           submit

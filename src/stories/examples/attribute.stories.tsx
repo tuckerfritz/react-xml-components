@@ -23,16 +23,14 @@ export function Attribute() {
         }}
       >
         <XML ref={editorRef} initialDoc={xml}>
-          <XML.Root>
-            <XML.Element name="book">
-              <XML.Attribute name="lang">
-                <Select>
-                  <option>en</option>
-                  <option>fr</option>
-                </Select>
-              </XML.Attribute>
-            </XML.Element>
-          </XML.Root>
+          <XML.Element name="book">
+            <XML.Attribute name="lang">
+              <Select>
+                <option>en</option>
+                <option>fr</option>
+              </Select>
+            </XML.Attribute>
+          </XML.Element>
         </XML>
         <button type="submit">submit</button>
       </form>

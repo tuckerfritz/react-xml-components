@@ -23,11 +23,9 @@ export function InputExample() {
         }}
       >
         <XML ref={editorRef} initialDoc={xml}>
-          <XML.Root>
-            <XML.Element name="example">
-              <Input />
-            </XML.Element>
-          </XML.Root>
+          <XML.Element name="example">
+            <Input />
+          </XML.Element>
         </XML>
         <button type="submit">submit</button>
       </form>

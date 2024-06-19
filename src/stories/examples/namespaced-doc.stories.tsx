@@ -29,18 +29,16 @@ export function NamespacedDocument() {
         }}
       >
         <XML ref={editorRef} initialDoc={xml}>
-          <XML.Root>
-            <XML.Element name="xhtml:table">
-              <XML.Element name="xhtml:tr">
-                <XML.Element name="xhtml:td.0">
-                  <Input />
-                </XML.Element>
-                <XML.Element name="xhtml:td.1">
-                  <Input />
-                </XML.Element>
+          <XML.Element name="xhtml:table">
+            <XML.Element name="xhtml:tr">
+              <XML.Element name="xhtml:td.0">
+                <Input />
+              </XML.Element>
+              <XML.Element name="xhtml:td.1">
+                <Input />
               </XML.Element>
             </XML.Element>
-          </XML.Root>
+          </XML.Element>
         </XML>
         <button type="submit">submit</button>
       </form>

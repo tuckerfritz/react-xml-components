@@ -25,11 +25,9 @@ export function NestedElement() {
         }}
       >
         <XML ref={editorRef} initialDoc={xml}>
-          <XML.Root>
-            <XML.Element name="nested.0.element.0">
-              <Input />
-            </XML.Element>
-          </XML.Root>
+          <XML.Element name="nested.0.element.0">
+            <Input />
+          </XML.Element>
         </XML>
         <button type="submit">submit</button>
       </form>

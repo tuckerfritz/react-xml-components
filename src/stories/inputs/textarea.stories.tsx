@@ -25,11 +25,9 @@ export function TextAreaExample() {
         }}
       >
         <XML ref={editorRef} initialDoc={xml}>
-          <XML.Root>
-            <XML.Element name="example">
-              <TextArea />
-            </XML.Element>
-          </XML.Root>
+          <XML.Element name="example">
+            <TextArea />
+          </XML.Element>
         </XML>
         <button type="submit">submit</button>
       </form>
