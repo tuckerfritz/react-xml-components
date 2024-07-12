@@ -87,7 +87,7 @@ In addition, this library also exports "NodeContext" that you can use in combina
 
 # Try It Out
 
-This library isn't currently published to npm (working on it) but you can run the following commands to view it in action:
+This library isn't published on npm but you can run the following commands to view it in action:
 
 ```
 git clone https://github.com/tuckerfritz/react-xml-components.git
